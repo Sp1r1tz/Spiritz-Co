@@ -1,0 +1,35 @@
+# NOTE: after v.1.5.0, discord.py reqires "Intents" to be used with bots. I've updated this snippet to work with discord.py's latest breaking update!
+import discord
+from discord.ext.commands import Bot
+from discord import Intents
+intents = Intents.all()
+bot = Bot(intents=intents, command_prefix='$') # or whatever prefix you choose(!,%,?)
+
+# insert the line below at the end of the file 
+# define <TOKEN> as your discord bot token
+bot.run(<TOKEN>)
+
+
+
+import discord
+from discord.ext.commands import Bot
+
+bot = Bot(command_prefix='$')
+TOKEN = '<INSERT TOKEN HERE>'
+
+@bot.command(name='server')
+async def fetchServerInfo(context):
+    guild = context.guild
+	
+    await context.send(f'Server Name: {guild.name}')
+    await context.send(f'Server Size: {len(guild.members)}')
+    await context.send(f'Server Name: {guild.owner.display_name}')
+
+bot.run(TOKEN)
+
+
+It is relatively pain-free to do this on discord.py. This can be done with the bot.change_presence() method and can be changed throughout the bot’s runtime.
+For example, perhaps you want to make it so that the bot is “Playing Fortnite” and you want it to be like that from the moment you start up the bot. To do this, you should modify your on_ready() event function as the following:
+@bot.event
+async def on_ready():
+    await bot.change_presence(activity = discord.Game('Fortnite'))
